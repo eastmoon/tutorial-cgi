@@ -1,4 +1,4 @@
 #!/usr/bin/env perl
 
-print "Content-type: text/html\r\n";
+print "Content-type: text/html\n\n";
 print "Hello, World.";
