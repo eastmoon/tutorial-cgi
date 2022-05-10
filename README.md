@@ -37,7 +37,18 @@ dockerw nginx --down
 dockerw nginx --into
 perl <demo-filename>.pl
 ```
-> 使用 Perl 作為
+
+### 設定
+
+Nginx 本身並不具備 CGI 相關服務，因此需使用 FastCGI 相關的套件來達成功能，本項目使用 fcgiwrap 套件，此套件會額外安裝 spawn-fcgi 與 fcgi 函式庫。
+
+1. 安裝 fcgiwrap，```apt-get update && apt-get install -y fcgiwrap```
+2. 撰寫 fcgiwrap 啟動腳本並放置於 ```/etc/init.d/fcgiwrap```
+3. 執行 fcgiwrap 腳本，並確認產生 ```/tmp/cgi.sock```
+4. 若 ```/tmp/cgi.sock``` 權限不足，需額外設定 ```chmod 777 /tmp/cgi.sock```
+5. 撰寫 ```/etc/nginx/conf.d/default.conf```，增加 ```cgi-bin``` 路由，並經由 ```unix:/tmp/cgi.sock``` 進行 socket 通訊
+
+Nginx 原理上是透過 Socket 與常駐執行的 FastCGI 套件通訊，並委請此服務執行 ```fastcgi_param SCRIPT_FILENAME``` 指向的目標檔案。
 
 ## Apache
 
@@ -74,7 +85,7 @@ perl <demo-filename>.pl
 + [HTML 驗證](http://localhost/index.html)，確認服務啟動
     + for apache : [伺服器資訊](http://localhost/server-info)，開啟 mod_info
     + for apache : [伺服器狀態](http://localhost/server-status)，開啟 mode_status
-+ [CGI 驗證](http://localhost/cgi-bin/cgi)，確認 CGI 啟動，執行簡單的 shell script
++ [CGI 驗證](http://localhost/cgi-bin/index.cgi)，確認 CGI 啟動，執行簡單的 shell script
 + [CGI 驗證](http://localhost/cgi-bin/index.pl)，確認 CGI 啟動，執行簡單的 perl script
 + [取得環境資訊](http://localhost/cgi-bin/printenv.pl)
 
@@ -85,6 +96,9 @@ perl <demo-filename>.pl
 + [Common Gateway Interface wiki](https://zh.wikipedia.org/zh-tw/%E9%80%9A%E7%94%A8%E7%BD%91%E5%85%B3%E6%8E%A5%E5%8F%A3)
     - [What is the Common Gateway interface (CGI)?](https://mixwithmarketing.com/2022/02/what-is-the-common-gateway-interface-cgi/)
 + Nginx
+    - [NGINX : FCGI Wrap](https://www.nginx.com/resources/wiki/start/topics/examples/fcgiwrap/)
+        + [fcgiwrap 的简单使用](https://blog.twofei.com/642/)
+        + [FcgiWrap ubuntu](https://help.ubuntu.com/community/FcgiWrap)
     - [Nginx fastcgi、uwgi、scgi](https://www.796t.com/content/1546776782.html)
     - [用 Nginx 搭配 fcgiwrap 執行 CGI 程式](https://opensourcedoc.com/web-programming/run-cgi-programs-with-fcgiwrap/)
     - [Nginx + CGI/FastCGI + C/Cpp](https://www.cnblogs.com/skynet/p/4173450.html)
