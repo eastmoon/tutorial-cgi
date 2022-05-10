@@ -120,7 +120,6 @@ goto end
 :cli-args (
     set COMMON_ARGS_KEY=%1
     set COMMON_ARGS_VALUE=%2
-    if "%COMMON_ARGS_KEY%"=="--prod" (set PROJECT_ENV=prod)
     goto end
 )
 
@@ -142,14 +141,28 @@ goto end
 
 :: ------------------- Common Command method -------------------
 
+:remove-container (
+    docker rm -f nginx-%PROJECT_NAME%
+    docker rm -f httpd-%PROJECT_NAME%
+    goto end
+)
+
 :: ------------------- Command "nginx" method -------------------
 
 :cli-nginx (
     echo ^> Startup development mode with Nginx
-    docker run -ti --rm ^
-        -v %cd%\src:/repo ^
-        -w /repo ^
-        nginx bash
+    call :remove-container
+    if NOT "%COMMAND_ACTION%"=="down" (
+        docker run -d ^
+            -p 80:80 ^
+            -v %cd%\src/perl:/repo ^
+            -w /repo ^
+            --name nginx-%PROJECT_NAME% ^
+            nginx
+    )
+    if "%COMMAND_ACTION%"=="into" (
+        docker exec -ti nginx-%PROJECT_NAME% bash
+    )
 
     goto end
 )
@@ -157,6 +170,8 @@ goto end
 :cli-nginx-args (
     set COMMON_ARGS_KEY=%1
     set COMMON_ARGS_VALUE=%2
+    if "%COMMON_ARGS_KEY%"=="--into" (set COMMAND_ACTION=into)
+    if "%COMMON_ARGS_KEY%"=="--down" (set COMMAND_ACTION=down)
     goto end
 )
 
@@ -166,6 +181,8 @@ goto end
     echo.
     echo Options:
     echo      --help, -h        Show more information with UP Command.
+    echo      --into            Going to container.
+    echo      --down            Close down container.
     goto end
 )
 
@@ -173,13 +190,20 @@ goto end
 
 :cli-apache (
     echo ^> Startup development mode with Apache2
-    docker run -ti --rm ^
-        -p 80:80 ^
-        -v %cd%\conf\apache\httpd.conf:/usr/local/apache2/conf/httpd.conf ^
-        -v %cd%\conf\apache\extra:/usr/local/apache2/conf/extra ^
-        -v %cd%\src/perl:/usr/local/apache2/cgi-bin ^
-        -w /usr/local/apache2/cgi-bin ^
-        httpd bash
+    call :remove-container
+    if NOT "%COMMAND_ACTION%"=="down" (
+        docker run -d ^
+            -p 80:80 ^
+            -v %cd%\conf\apache\httpd.conf:/usr/local/apache2/conf/httpd.conf ^
+            -v %cd%\conf\apache\extra:/usr/local/apache2/conf/extra ^
+            -v %cd%\src/perl:/usr/local/apache2/cgi-bin ^
+            -w /usr/local/apache2/cgi-bin ^
+            --name httpd-%PROJECT_NAME% ^
+            httpd
+    )
+    if "%COMMAND_ACTION%"=="into" (
+        docker exec -ti httpd-%PROJECT_NAME% bash
+    )
 
     goto end
 )
@@ -187,6 +211,8 @@ goto end
 :cli-apache-args (
     set COMMON_ARGS_KEY=%1
     set COMMON_ARGS_VALUE=%2
+    if "%COMMON_ARGS_KEY%"=="--into" (set COMMAND_ACTION=into)
+    if "%COMMON_ARGS_KEY%"=="--down" (set COMMAND_ACTION=down)
     goto end
 )
 
@@ -196,6 +222,8 @@ goto end
     echo.
     echo Options:
     echo      --help, -h        Show more information with UP Command.
+    echo      --into            Going to container.
+    echo      --down            Close down container.
     goto end
 )
 
