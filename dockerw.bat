@@ -146,7 +146,10 @@ goto end
 
 :cli-nginx (
     echo ^> Startup development mode with Nginx
-    docker run -ti --rm -v %cd%\src:/repo -w /repo nginx bash
+    docker run -ti --rm ^
+        -v %cd%\src:/repo ^
+        -w /repo ^
+        nginx bash
 
     goto end
 )
@@ -170,8 +173,14 @@ goto end
 
 :cli-apache (
     echo ^> Startup development mode with Apache2
-    docker run -ti --rm -v %cd%\src:/repo -w /repo httpd bash
-    
+    docker run -ti --rm ^
+        -p 80:80 ^
+        -v %cd%\conf\apache\httpd.conf:/usr/local/apache2/conf/httpd.conf ^
+        -v %cd%\conf\apache\extra:/usr/local/apache2/conf/extra ^
+        -v %cd%\src/perl:/usr/local/apache2/cgi-bin ^
+        -w /usr/local/apache2/cgi-bin ^
+        httpd bash
+
     goto end
 )
 
