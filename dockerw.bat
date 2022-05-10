@@ -151,14 +151,18 @@ goto end
 
 :cli-nginx (
     echo ^> Startup development mode with Nginx
+    docker build --rm^
+        -t nginx:%PROJECT_NAME%^
+        .\conf\nginx
     call :remove-container
     if NOT "%COMMAND_ACTION%"=="down" (
         docker run -d ^
             -p 80:80 ^
-            -v %cd%\src/perl:/repo ^
-            -w /repo ^
+            -v %cd%\conf\nginx\default.conf:/etc/nginx/conf.d/default.conf ^
+            -v %cd%\src/perl:/usr/share/nginx/html/cgi-bin ^
+            -w /usr/share/nginx/html/cgi-bin ^
             --name nginx-%PROJECT_NAME% ^
-            nginx
+            nginx:%PROJECT_NAME%
     )
     if "%COMMAND_ACTION%"=="into" (
         docker exec -ti nginx-%PROJECT_NAME% bash
