@@ -71,7 +71,7 @@ perl <demo-filename>.pl
 
 ## 驗證頁
 
-+ [HTML 驗證](http://localhost/index.html)，確認 Apache2 啟動
++ [HTML 驗證](http://localhost/index.html)，確認服務啟動
 + [CGI 驗證](http://localhost/cgi-bin/cgi)，確認 CGI 啟動，執行簡單的 shell script
 + [CGI 驗證](http://localhost/cgi-bin/index.pl)，確認 CGI 啟動，執行簡單的 perl script
 + [取得環境資訊](http://localhost/cgi-bin/printenv.pl)
