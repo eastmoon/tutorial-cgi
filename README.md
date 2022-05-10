@@ -69,7 +69,7 @@ perl <demo-filename>.pl
     + ```Option ExecCGI```，允許該目錄執行 CGI
     + ```SetHandler cgi-script```，使用 cgi-script 的副檔設定
 
-### 驗證頁
+## 驗證頁
 
 + [HTML 驗證](http://localhost/index.html)，確認 Apache2 啟動
 + [CGI 驗證](http://localhost/cgi-bin/cgi)，確認 CGI 啟動，執行簡單的 shell script
