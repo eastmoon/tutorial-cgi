@@ -160,6 +160,7 @@ goto end
             -p 80:80 ^
             -v %cd%\conf\nginx\default.conf:/etc/nginx/conf.d/default.conf ^
             -v %cd%\src/perl:/usr/share/nginx/html/cgi-bin ^
+            -v %cd%\src/html:/usr/share/nginx/html ^
             -w /usr/share/nginx/html/cgi-bin ^
             --name nginx-%PROJECT_NAME% ^
             nginx:%PROJECT_NAME%
@@ -204,6 +205,7 @@ goto end
             -v %cd%\conf\apache\httpd.conf:/usr/local/apache2/conf/httpd.conf ^
             -v %cd%\conf\apache\extra:/usr/local/apache2/conf/extra ^
             -v %cd%\src/perl:/usr/local/apache2/cgi-bin ^
+            -v %cd%\src/html:/usr/local/apache2/htdocs ^
             -w /usr/local/apache2/cgi-bin ^
             --name httpd-%PROJECT_NAME% ^
             httpd:%PROJECT_NAME%
