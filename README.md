@@ -115,6 +115,9 @@ perl <demo-filename>.pl
 + [Fastcgi](https://fastcgi-archives.github.io/)
     - [用c++写一个 “hello,world” 的 FastCGI程序](https://www.cnblogs.com/oxspirt/p/5505184.html)
 + [Perl wiki](https://zh.wikipedia.org/zh-tw/Perl)
-    - [Perl的基本語法](http://ind.ntou.edu.tw/~dada/cgi/Perlsynx.htm)
-    - [Perl 教學 -- 函數與字串處理](http://web.nchu.edu.tw/~jlu/cyut/perl-functions.shtml)
-    - [如何更改 @INC 來找到不位在標準目錄的 Perl 模組](https://tw.perlmaven.com/how-to-change-inc-to-find-perl-modules-in-non-standard-locations)
+    - 語言
+        + [Perl的基本語法](http://ind.ntou.edu.tw/~dada/cgi/Perlsynx.htm)
+        + [Perl 教學 -- 函數與字串處理](http://web.nchu.edu.tw/~jlu/cyut/perl-functions.shtml)
+        + [如何更改 @INC 來找到不位在標準目錄的 Perl 模組](https://tw.perlmaven.com/how-to-change-inc-to-find-perl-modules-in-non-standard-locations)
+    - [函式庫 Metacpan](https://metacpan.org/)
+        + [JSON](https://metacpan.org/pod/JSON#NAME)

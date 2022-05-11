@@ -194,6 +194,9 @@ goto end
 
 :cli-apache (
     echo ^> Startup development mode with Apache2
+    docker build --rm^
+        -t httpd:%PROJECT_NAME%^
+        .\conf\apache
     call :remove-container
     if NOT "%COMMAND_ACTION%"=="down" (
         docker run -d ^
@@ -203,7 +206,7 @@ goto end
             -v %cd%\src/perl:/usr/local/apache2/cgi-bin ^
             -w /usr/local/apache2/cgi-bin ^
             --name httpd-%PROJECT_NAME% ^
-            httpd
+            httpd:%PROJECT_NAME%
     )
     if "%COMMAND_ACTION%"=="into" (
         docker exec -ti httpd-%PROJECT_NAME% bash
