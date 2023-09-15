@@ -100,10 +100,12 @@ perl <demo-filename>.pl
         + [fcgiwrap 的简单使用](https://blog.twofei.com/642/)
         + [FcgiWrap ubuntu](https://help.ubuntu.com/community/FcgiWrap)
     - [Nginx fastcgi、uwgi、scgi](https://www.796t.com/content/1546776782.html)
+    - [nginx alpine run shell script](https://mac-blog.org.ua/docker-nginx-shell-script/)
     - [用 Nginx 搭配 fcgiwrap 執行 CGI 程式](https://opensourcedoc.com/web-programming/run-cgi-programs-with-fcgiwrap/)
     - [Nginx + CGI/FastCGI + C/Cpp](https://www.cnblogs.com/skynet/p/4173450.html)
     - [perl + fastcgi + nginx搭建](http://www.ttlsa.com/nginx/perl-fastcgi-nginx/)
     - [Nginx / uWSGI / Python 之關聯#2 : uWSGI篇](https://medium.com/bucketing/nginx-uwsgi-python-%E4%B9%8B%E9%97%9C%E8%81%AF-2-uwsgi%E7%AF%87-7b439ef028ec)
+    - [Python CGI on Nginx](https://techexpert.tips/nginx/python-cgi-nginx/)
 + Apache2
     - Document
         + [Apache Tutorial: Dynamic Content with CGI](https://httpd.apache.org/docs/2.4/howto/cgi.html)

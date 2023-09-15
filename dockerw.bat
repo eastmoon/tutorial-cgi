@@ -133,6 +133,7 @@ goto end
     echo.
     echo Command:
     echo      nginx.perl        Startup development mode with Nginx and Perl environment.
+    echo      nginx.python      Startup development mode with Nginx and Python environment.
     echo      apache            Startup development mode with Apache2.
     echo.
     echo Run 'cli [COMMAND] --help' for more information on a command.
@@ -143,6 +144,7 @@ goto end
 
 :remove-container (
     docker rm -f nginx.perl-%PROJECT_NAME%
+    docker rm -f nginx.python-%PROJECT_NAME%
     docker rm -f httpd-%PROJECT_NAME%
     goto end
 )
@@ -190,6 +192,51 @@ goto end
     echo      --down            Close down container.
     goto end
 )
+
+:: ------------------- Command "nginx.python" method -------------------
+
+:cli-nginx.python (
+    echo ^> Startup development mode with Nginx
+    docker build --rm^
+        -t nginx.python:%PROJECT_NAME%^
+        .\conf\nginx.python
+    call :remove-container
+    if NOT "%COMMAND_ACTION%"=="down" (
+        docker run -d ^
+            -p 80:80 ^
+            -v %cd%\conf\nginx.python\default.conf:/etc/nginx/conf.d/default.conf ^
+            -v %cd%\src/python:/usr/share/nginx/html/cgi-bin ^
+            -v %cd%\src/html:/usr/share/nginx/html ^
+            -w /usr/share/nginx/html/cgi-bin ^
+            --name nginx.python-%PROJECT_NAME% ^
+            nginx.python:%PROJECT_NAME%
+    )
+    if "%COMMAND_ACTION%"=="into" (
+        docker exec -ti nginx.python-%PROJECT_NAME% bash
+    )
+
+    goto end
+)
+
+:cli-nginx.python-args (
+    set COMMON_ARGS_KEY=%1
+    set COMMON_ARGS_VALUE=%2
+    if "%COMMON_ARGS_KEY%"=="--into" (set COMMAND_ACTION=into)
+    if "%COMMON_ARGS_KEY%"=="--down" (set COMMAND_ACTION=down)
+    goto end
+)
+
+:cli-nginx.python-help (
+    echo This is a Command Line Interface with project %PROJECT_NAME%
+    echo Startup development mode with Nginx and Python environment
+    echo.
+    echo Options:
+    echo      --help, -h        Show more information with UP Command.
+    echo      --into            Going to container.
+    echo      --down            Close down container.
+    goto end
+)
+
 
 :: ------------------- Command "apache" method -------------------
 
